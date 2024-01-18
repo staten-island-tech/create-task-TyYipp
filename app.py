@@ -1,35 +1,23 @@
 import random
 list = ["rock", "paper", "scissors"]
 computer = random.choice(list)
+print(computer)
 def game():
     player = input("Choose rock, paper, or scissors: ")
     def stat():
         print("Computer had: " + computer)
-        print("You had: " + player)
-    if player == computer:
+        print("You had: " + player.lower())
+    if player.lower() == computer:
         print("draw")
         stat()
-    elif player == "scissors" and computer == "rock":
+    elif player.lower() == "scissors" and computer == "rock" or player.lower() == "paper" and computer == "scissors" or player.lower() == "rock" and computer == "paper":
         print("you lost")
         stat()
-    elif player == "paper" and computer == "rock":
+    elif player.lower() == "paper" and computer == "rock" or player.lower() == "rock" and computer == "scissors" or player.lower() == "scissors" and computer == "paper":
         print("you won")
         stat()
-    elif player == "paper" and computer == "scissors":
-        print("you lost")
-        stat()
-    elif player == "rock" and computer == "scissors":
-        print("you won")
-        stat()
-    elif player == "scissors" and computer == "paper":
-        print("you won")
-        stat()
-    elif player == "rock" and computer == "paper":
-        print("you lost")
-        stat()
-
-while play == "yes":
-    play = input("Do you still want to play?: ")
-    game()  
-
+    else:
+        print("try again monkey")
+        game()
+game()
     
