@@ -1,74 +1,61 @@
-const domselector = {
-    history: document.getElementById("history"),
-    box: document.getElementById("box")  
+const arr = [];
+
+function printresults(message) {
+    document.getElementById("results").innerHTML = ''
+    document.getElementById("results").innerHTML = `<p>${message}</p>`;
 }
-function game() {
-    let counter = 0;
-    const history = [];
 
-    while (true) {
-        const player = prompt("Choose rock, paper, or scissors (history or exit): ");
-
-        if (player.toLowerCase() === "exit") {
-            domselector.box.innerHTML = ``
-            domselector.box.innerHTML = `User has quit`
-            console.log("Goodbye");
-            break;
-        } else if (player.toLowerCase() === "history") {
-            domselector.history.innerHTML = ``
-            domselector.history.innerHTML = `${history}`
-            console.log(history);
-            continue;
-        }
-
-        counter++;
-        console.log('Game number: ' + counter);
-        const options = ["rock", "paper", "scissors"];
-        const random = Math.floor(Math.random() * options.length);
-        const computer = options[random];
-        console.log(computer);
-
-        function stat() {
-            domselector.box.innerHTML = ``
-            domselector.box.innerHTML = `🤖 Computer had: ${computer}`
-            domselector.box.innerHTML = `😊 You had: ${player.toLowerCase()}`
-            console.log("🤖 Computer had: " + computer);
-            console.log("😊 You had: " + player.toLowerCase());
-        }
-
-        if (player.toLowerCase() === computer) {
-            console.log("Results: draw");
-            domselector.box.innerHTML = ``
-            domselector.box.innerHTML = `Draw 🏳`
-            const result = 'Draw 🏳';
-            history.push(result);
-            stat();
-        } else if (
-            (player.toLowerCase() === "scissors" && computer === "rock") ||
-            (player.toLowerCase() === "paper" && computer === "scissors") ||
-            (player.toLowerCase() === "rock" && computer === "paper")
-        ) {
-            console.log("Results: lost");
-            domselector.box.innerHTML = ``
-            domselector.box.innerHTML = `Lost ✖`
-            const result = 'Lost ✖';
-            history.push(result);
-            stat();
-        } else if (
-            (player.toLowerCase() === "paper" && computer === "rock") ||
-            (player.toLowerCase() === "rock" && computer === "scissors") ||
-            (player.toLowerCase() === "scissors" && computer === "paper")
-        ) {
-            console.log("Results: Won");
-            domselector.box.innerHTML = ``
-            domselector.box.innerHTML = `Won ✔`
-            const result = 'Won ✔';
-            history.push(result);
-            stat();
-        } else {
-            console.log("Try again");
-            continue;
-        }
+function printhistory() {
+    const history = document.getElementById("history");
+    history.innerHTML = "";
+    for (let i = 0; i < arr.length; i++) {
+        history.insertAdjacentHTML('beforeend', `<div>Game ${i + 1}: ${arr[i]}</div>`);
     }
 }
-game()
+
+function play(player) {
+    if (player === "exit") {
+        printresults("Goodbye");
+        arr.length = 0; 
+        printhistory(); 
+        return;
+    }
+    if (player === "historybtn") {
+        printhistory();
+        return;
+    }
+    const options = ["rock", "paper", "scissors"];
+    const computer = options[Math.floor(Math.random() * options.length)];
+    const result = compare(player, computer);
+    printresults(result);
+
+    arr.push(`YOU: ${player} vs COMPUTER: ${computer} = ${result}`);
+}
+
+
+
+function compare(player, computer) {
+    if (player === computer) {
+        return "It's a draw! 🏳";
+    } else if (
+        (player === "scissors" && computer === "rock") ||
+        (player === "paper" && computer === "scissors") ||
+        (player === "rock" && computer === "paper")
+    ) {
+        return "You lost! ✖";
+    } else if (
+        (player === "rock" && computer === "scissors") ||
+        (player === "scissors" && computer === "paper") ||
+        (player === "paper" && computer === "rock")
+    ) {
+        return "You won! ✔";
+    } else {
+        return "Try Again! 😒";
+    }
+}
+const buttons = document.querySelectorAll(".btn");
+buttons.forEach(button => {
+    button.addEventListener("click", function () {
+        play(button.id);
+    });
+});
