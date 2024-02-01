@@ -1,10 +1,8 @@
 const arr = [];
-
 function printresults(message) {
     document.getElementById("results").innerHTML = ''
     document.getElementById("results").innerHTML = `<p>${message}</p>`;
 }
-
 function printhistory() {
     const history = document.getElementById("history");
     history.innerHTML = "";
@@ -12,10 +10,9 @@ function printhistory() {
         history.insertAdjacentHTML('beforeend', `<div>Game ${i + 1}: ${arr[i]}</div>`);
     }
 }
-
 function play(player) {
-    if (player === "exit") {
-        printresults("Goodbye");
+    if (player === "reset") {
+        printresults("History Reset");
         arr.length = 0; 
         printhistory(); 
         return;
@@ -28,12 +25,8 @@ function play(player) {
     const computer = options[Math.floor(Math.random() * options.length)];
     const result = compare(player, computer);
     printresults(result);
-
     arr.push(`YOU: ${player} vs COMPUTER: ${computer} = ${result}`);
 }
-
-
-
 function compare(player, computer) {
     if (player === computer) {
         return "It's a draw! 🏳";
